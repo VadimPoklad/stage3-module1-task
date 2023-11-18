@@ -9,7 +9,7 @@ wrapper {
 subprojects {
     apply plugin: 'java'
     apply plugin: 'jacoco'
-    group = 'com.mjc.school'
+    group = "com.mjc.school"
     sourceCompatibility = javaVersion
     targetCompatibility = javaVersion
 
@@ -18,6 +18,8 @@ subprojects {
     }
 
     dependencies {
+        compileOnly 'org.projectlombok:lombok:1.18.30'
+        annotationProcessor 'org.projectlombok:lombok:1.18.30'
         testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
         testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
     }
@@ -27,7 +29,10 @@ subprojects {
     }
 }
 
-task repack(type: Jar, dependsOn: ':module-main:build') {
+
+
+tasks.register('repack', Jar) {
+    dependsOn ':module-main:build'
     if (findProject(':module-main') != null) {
         entryCompression = ZipEntryCompression.STORED
         def buildJar = zipTree("${project(':module-main').buildDir}/libs/module-main-all.jar")
